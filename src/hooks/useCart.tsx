@@ -23,7 +23,7 @@ const CartContext = createContext<CartContextData>({} as CartContextData);
 
 export function CartProvider({ children }: CartProviderProps): JSX.Element {
   const [cart, setCart] = useState<Product[]>(() => {
-    const storagedCart = localStorage.getItem("@RocketShoes:cart");
+    const storagedCart = localStorage.getItem('@RocketShoes:cart');
 
     if (storagedCart) {
       return JSON.parse(storagedCart);
@@ -62,7 +62,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       }
 
       setCart(updatedCart);
-      localStorage.setItem("@RocketShoes:cart", JSON.stringify(updatedCart));
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart));
     } catch {
       toast.error("Erro na adição do produto");
     }
@@ -72,13 +72,13 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     try {
       const updatedCart = [...cart];
       const productIndex = updatedCart.findIndex(
-        (product) => product.id === productId
+        product => product.id === productId
       );
 
       if (productIndex >= 0) {
         updatedCart.splice(productIndex, 1);
         setCart(updatedCart);
-        localStorage.setItem("@RocketShoes:cart", JSON.stringify(updatedCart));
+        localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart));
       } else {
         throw Error();
       }
@@ -96,7 +96,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         return;
       }
 
-      const stock = await api.get(`/products/${productId}`);
+      const stock = await api.get(`/stock/${productId}`);
       const stockAmount = stock.data.amount;
 
       if (amount > stockAmount) {
@@ -106,13 +106,13 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       const updatedCart = [...cart];
       const productExists = updatedCart.find(
-        (product) => product.id === productId
+        product => product.id === productId
       );
 
       if (productExists) {
         productExists.amount = amount;
         setCart(updatedCart);
-        localStorage.setItem("@RocketShoes:cart", JSON.stringify(updatedCart));
+        localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart));
       }else{
         throw Error();
       }
